@@ -34,8 +34,10 @@ const summariseAndSuggestResponse = async (req, res) => {
     });
     const suggestedResponse = responseCompletion.choices[0].message.content.trim();
     res.json({
-      summary,
-      suggestedResponse
+      output: {
+        summary,
+        suggestedResponse
+      }
     });
   } catch (error) {
     console.log("Error with OpenAI API:", error);
