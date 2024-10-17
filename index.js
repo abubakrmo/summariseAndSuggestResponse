@@ -11,6 +11,8 @@ const openai = new OpenAI({
 });
 
 const summariseAndSuggestResponse = async (req, res) => {
+  console.log('Received request from func.live:', req.body);
+
   const { input } = req.body;
   if (!input || typeof input !== 'string') {
     return res.status(400).send({ error: 'Input is required and must be a string' });
@@ -24,6 +26,8 @@ const summariseAndSuggestResponse = async (req, res) => {
       max_tokens: 50,
     });
     const summary = completion.choices[0].message.content.trim();
+    console.log('Generated summary:', summary); //summary
+
     const responseCompletion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -32,6 +36,9 @@ const summariseAndSuggestResponse = async (req, res) => {
       max_tokens: 100,
     });
     const suggestedResponse = responseCompletion.choices[0].message.content.trim();
+    console.log('Suggested response:', suggestedResponse); //response
+
+
     res.send({ summary, suggestedResponse });
   } catch (error) {
     console.log("Error with OpenAI API:", error);
