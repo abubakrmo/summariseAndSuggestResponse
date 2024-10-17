@@ -11,7 +11,6 @@ const openai = new OpenAI({
 });
 
 const summariseAndSuggestResponse = async (req, res) => {
-
   const { input } = req.body;
   if (!input || typeof input !== 'string') {
     return res.status(400).send({ error: 'Input is required and must be a string' });
@@ -34,7 +33,7 @@ const summariseAndSuggestResponse = async (req, res) => {
       max_tokens: 100,
     });
     const suggestedResponse = responseCompletion.choices[0].message.content.trim();
-    res.send({
+    res.json({
       output: {
         summary,
         suggestedResponse,
